@@ -1,3 +1,5 @@
+### README.md
+
 # CustomBillBoardGui Usage
 
 The `CustomBillBoardGui` module allows you to easily create and manage 2D GUI elements that are dynamically positioned based on game objects in Roblox. This module helps implement a location guide system that indicates the position of objects both inside and outside the screen.
@@ -30,6 +32,10 @@ new.Object.ImageColor3 = Color3.new(1, 0, 0)
 - `Object.SizeConstraint` (Enum.SizeConstraint): Determines how the GUI element's size is constrained. Example: `Enum.SizeConstraint.RelativeYY`.
 - `Size` (UDim2): The size of the GUI element when the object is inside the screen.
 - `Object.ImageColor3` (Color3): The color of the GUI image.
+
+### Methods
+
+- `Destroy()`: Removes the `CustomBillBoardGui` instance and cleans up any connections or resources associated with it.
 
 ### Note
 
