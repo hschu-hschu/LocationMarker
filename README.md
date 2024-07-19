@@ -31,7 +31,7 @@ new.Object.ImageColor3 = Color3.new(1, 0, 0)
 - `Adornee` (BasePart | Model): The object in the workspace that the billboard GUI will follow.
 - `Object.SizeConstraint` (Enum.SizeConstraint): Determines how the GUI element's size is constrained. Example: `Enum.SizeConstraint.RelativeYY`.
 - `Size` (UDim2): The size of the GUI element when the object is inside the screen.
-- `Object.ImageColor3` (Color3): The color of the GUI image.
+- `Object` (ImageLabel): ImageLabel Object. You can change the proputys.
 
 ### Methods
 
