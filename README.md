@@ -1,5 +1,3 @@
-### README.md
-
 # CustomBillBoardGui Usage
 
 The `CustomBillBoardGui` module allows you to easily create and manage 2D GUI elements that are dynamically positioned based on game objects in Roblox. This module helps implement a location guide system that indicates the position of objects both inside and outside the screen.
