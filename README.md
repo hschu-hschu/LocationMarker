@@ -27,6 +27,7 @@ new.Object.ImageColor3 = Color3.new(1, 0, 0)
 
 ### Properties
 
+- `InsideIconID` (string): The URL of the icon to be displayed when the object is inside the screen.
 - `OutsideIconID` (string): The URL of the icon to be displayed when the object is outside the screen.
 - `Adornee` (BasePart | Model): The object in the workspace that the billboard GUI will follow.
 - `Object.SizeConstraint` (Enum.SizeConstraint): Determines how the GUI element's size is constrained. Example: `Enum.SizeConstraint.RelativeYY`.
