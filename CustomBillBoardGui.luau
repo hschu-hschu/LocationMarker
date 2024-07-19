@@ -1,3 +1,5 @@
+--!native
+
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
@@ -12,7 +14,7 @@ export type CustomBillBoardGui = {
 	InsideIconID:string,
 	OutsideIconID:string,
 	Destroy: (CustomBillBoardGui) -> nil,
-	_preRenderConnection:RBXScriptConnection?,
+	_renderConnection:RBXScriptConnection?,
 }
 
 export type billboardguiManager = {
@@ -62,7 +64,7 @@ local getters = {
 		if Adornee:IsA("Model") then
 			local model = Adornee
 			return model:GetPivot().Position
-			
+
 		elseif Adornee:IsA("BasePart") then
 			local part = Adornee
 			return part.Position
@@ -75,28 +77,21 @@ local getters = {
 	["InsideIconID"] = DefualtGetter,
 	["OutsideIconID"] = DefualtGetter,
 	["Destroy"] = function(self:CustomBillBoardGui)
-		local preRenderConnection = self["_preRenderConnection"]
-		if preRenderConnection and preRenderConnection.Connected then
-			preRenderConnection:Disconnect()
-		end
+		self["_renderConnection"] = nil
 		self.Object:Destroy()
 		table.remove(module._BillBoardGuis,table.find(module._BillBoardGuis,self))
 		if #module._BillBoardGuis == 0 then
 			module._ScreenGui:Destroy()
 		end
 	end,
-	["_preRenderConnection"] = DefualtGetter,
+	["_renderConnection"] = DefualtGetter,
 }
 
 local setters = {
 	["Adornee"] = function(self:CustomBillBoardGui, k, v)
-		local preRenderConnection = self["_preRenderConnection"]
-		if preRenderConnection and preRenderConnection.Connected then
-			preRenderConnection:Disconnect()
-		end
-		preRenderConnection = RunService.PreRender:Connect(function()
+		self["_renderConnection"] = RunService.PreRender:Connect(function()
 			if not self.Enabled then return end
-			
+
 			local Object = self.Object
 			local viewportPoint,depth,onScreen do
 				local vector:Vector3
@@ -110,20 +105,20 @@ local setters = {
 			end
 			local viewportX = Carmera.ViewportSize.X
 			local viewportY = Carmera.ViewportSize.Y
-			
+
 			local size do
 				local targetSize =  self.OutSideSize
 
 				local ScaleOffset = math.sqrt(5)/2 * depth
 				size = UDim2.fromOffset(targetSize.Height.Offset + targetSize.Height.Scale/ScaleOffset*viewportY
-										,targetSize.Height.Offset + targetSize.Height.Scale/ScaleOffset*viewportY)
+					,targetSize.Height.Offset + targetSize.Height.Scale/ScaleOffset*viewportY)
 			end
 			local bufferSize = size.Width.Offset
-			
+
 
 			local maxBoundsX = viewportX - (bufferSize * 2)
 			local maxBoundsY = viewportY - (bufferSize * 2)
-			
+
 			if viewportX <= bufferSize or viewportY<=bufferSize then
 				return
 			end
@@ -185,6 +180,13 @@ local setters = {
 	end,
 	["OutsideIconID"] = function(self:CustomBillBoardGui, k, v)
 		self.Object.Image = v
+		DefualtSetter(self, k, v)
+	end,
+	["_renderConnection"] = function(self:CustomBillBoardGui, k, v)
+		local preRenderConnection = self["_renderConnection"]
+		if preRenderConnection and preRenderConnection.Connected then
+			preRenderConnection:Disconnect()
+		end
 		DefualtSetter(self, k, v)
 	end,
 }
